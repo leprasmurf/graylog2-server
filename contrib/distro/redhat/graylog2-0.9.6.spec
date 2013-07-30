@@ -1,5 +1,5 @@
 Name:		graylog2
-Version:	0.9.6
+Version:	0.12.0
 Release:	1%{?dist}
 Summary:	Graylog2 is an open source log management solution that stores your logs in ElasticSearch.
 Group:		System Environment/Daemons 
@@ -9,6 +9,7 @@ Source0:	https://github.com/downloads/Graylog2/graylog2-server/%{name}-server-%{
 Source1:    graylog2.drl
 Source2:    graylog2.conf
 Source3:    graylog2.init
+Source3:    graylog2-elasticsearch.yml
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-server-%{version}-%{release}-XXXXXX)
 
 Requires:	java-1.6.0-openjdk
@@ -36,6 +37,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 %{SOURCE3} %{buildroot}%{_initrddir}/%{name}
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/%{name}/rules/%{name}.drl
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
+%{__install} -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/%{name}/%{name}-elasticsearch.yml
 
 %{__install} -p -D -m 0644 %{name}-server.jar %{buildroot}%{_datadir}/%{name}/%{name}-server.jar
 
@@ -61,6 +63,7 @@ fi
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/rules
 %config(noreplace) %{_sysconfdir}/%{name}/*.conf
+%config(noreplace) %{_sysconfdir}/%{name}/*.yml
 %config(noreplace) %{_sysconfdir}/%{name}/rules/*.drl
 
 %{_initrddir}/%{name}
